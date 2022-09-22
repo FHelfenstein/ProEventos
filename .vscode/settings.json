@@ -1,0 +1,4 @@
+{
+    "omnisharp.useModernNet": false,
+    "omnisharp.projectLoadTimeout" : 30
+}
