@@ -500,4 +500,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Arquivos de banco de dados
+*.db
+*.db-shm
+*.db-wal
+
 
