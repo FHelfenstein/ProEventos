@@ -10,10 +10,6 @@ import { ValidatorField } from '@app/helpers/ValidatorField';
 export class PerfilComponent implements OnInit {
   form!: FormGroup;
 
-  get f(): any{
-    return this.form.controls;
-  }
-
   constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -33,11 +29,21 @@ export class PerfilComponent implements OnInit {
       email:['',[Validators.required,Validators.email]],
       telefone:['',[Validators.required]],
       funcao:['',[Validators.required]],
-      userName:['',[Validators.required]],
+      descricao:['',[Validators.required]],
       senha:['',[Validators.required,Validators.minLength(6)]],
       confirmeSenha:['',[Validators.required]],
 
     },formOptions);
+  }
+
+  // Conveniente para pegar um FormField apenas com a letra F
+  get f(): any{return this.form.controls};
+
+
+  // Vai parar aqui se o form estiver inválido
+  onSubmit(): void {
+    if (this.form.invalid)
+      return;
   }
 
   public resetForm(event:any): void {
