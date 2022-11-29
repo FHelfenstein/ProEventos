@@ -17,6 +17,7 @@ export class EventoListaComponent implements OnInit {
 
   public eventos: Evento[] = [];
   public eventosFiltrados: Evento[] = [];
+  public eventoId = 0;
 
   public larguraImagem: number = 150;
   public margemImagem: number = 2;
@@ -49,14 +50,14 @@ export class EventoListaComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinner.show();
-    this.getEventos();
+    this.carregarEventos();
   }
 
   public alterarImagem(): void {
     this.exibirImagem = !this.exibirImagem;
   }
 
-  public getEventos(): void {
+  public carregarEventos(): void {
     const observer = {
       next:(_eventos: Evento[]) => {
         this.eventos = _eventos;
@@ -79,18 +80,34 @@ export class EventoListaComponent implements OnInit {
 //    );
   }
 
-  openModal(template: TemplateRef<any>): void {
+  openModal(event:any,template: TemplateRef<any>,eventoId:number): void {
+    //** esta função faz com que a clicar na linha do botão delete da lista de eventos ele não propague abrindo a tela de evento-detalhe permanecendo na tela*/
+    event.stopPropagation();
+    this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
   }
 
   confirm(): void {
-    this.toastr.success('O Evento foi deletado com Sucesso', 'Deletado!');
     this.modalRef.hide();
+    this.spinner.show();
+
+    this.eventoService.deleteEvento(this.eventoId).subscribe(
+      (result: any) => {
+        if(result.message == 'Deletado.'){
+          console.log(result);
+          this.toastr.success('O Evento foi deletado com Sucesso', 'Deletado!');
+          this.carregarEventos();
+        }
+      },
+      (error:any) => {
+        this.toastr.error(`Erro ao tentar deletar o evento ${this.eventoId}`,'Erro!');
+        console.error(error);
+      }
+    ).add(() => this.spinner.hide());
   }
 
   decline(): void {
-    this.toastr.warning('O Evento não foi deletado com Sucesso', 'Não Deletado!');
-    this.modalRef.hide();
+      this.modalRef.hide();
   }
 
   detalheEvento(id:number): void {

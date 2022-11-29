@@ -9,6 +9,10 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { defineLocale } from 'ngx-bootstrap/chronos';
+import { ptBrLocale} from 'ngx-bootstrap/locale';
+
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
@@ -34,6 +38,9 @@ import { EventoService } from './services/evento.service';
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
 import { DateFormatPipe } from './helpers/DateFormat.pipe';
+import { LocaleDatePipe } from './helpers/locale.pipe';
+
+defineLocale('pt-br', ptBrLocale);
 
 @NgModule({
   declarations: [
@@ -47,6 +54,7 @@ import { DateFormatPipe } from './helpers/DateFormat.pipe';
     NavComponent,
     DateTimeFormatPipe,
     DateFormatPipe,
+    LocaleDatePipe,
     EventoDetalheComponent,
     EventoListaComponent,
     UserComponent,
@@ -64,6 +72,7 @@ import { DateFormatPipe } from './helpers/DateFormat.pipe';
     TooltipModule.forRoot(),
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
         timeOut: 3000,
         positionClass: 'toast-bottom-right',

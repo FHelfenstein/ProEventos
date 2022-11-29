@@ -51,6 +51,10 @@ export class PerfilComponent implements OnInit {
     this.form.reset();
   }
 
+  public cssValidator(campoForm:FormGroup) : any {
+    return {'is-invalid': campoForm.errors && campoForm.touched };
+  }
+
 }
 
 
