@@ -15,6 +15,7 @@ import { ptBrLocale} from 'ngx-bootstrap/locale';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,9 +36,9 @@ import { PerfilComponent } from './components/user/perfil/perfil.component';
 import { ContatosComponent } from './components/contatos/contatos.component';
 
 import { EventoService } from './services/evento.service';
+import { LoteService } from './services/lote.service';
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
-import { DateFormatPipe } from './helpers/DateFormat.pipe';
 import { LocaleDatePipe } from './helpers/locale.pipe';
 
 defineLocale('pt-br', ptBrLocale);
@@ -53,7 +54,6 @@ defineLocale('pt-br', ptBrLocale);
     TituloComponent,
     NavComponent,
     DateTimeFormatPipe,
-    DateFormatPipe,
     LocaleDatePipe,
     EventoDetalheComponent,
     EventoListaComponent,
@@ -79,11 +79,12 @@ defineLocale('pt-br', ptBrLocale);
         preventDuplicates: true,
         progressBar: true,
     }),
-    NgxSpinnerModule
-
+    NgxSpinnerModule,
+    NgxCurrencyModule,
   ],
   providers: [
-    EventoService
+    EventoService,
+    LoteService,
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
