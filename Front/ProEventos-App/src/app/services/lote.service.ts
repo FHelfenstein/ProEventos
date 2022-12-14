@@ -5,11 +5,13 @@ import { Lote } from '@app/models/Lote';
 
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { environment } from '@environments/environment';
 
 @Injectable()
 
 export class LoteService {
-  baseURL = "https://localhost:5001/api/lotes";
+  //baseURL = "https://localhost:5001/api/lotes";
+  baseURL = environment.apiURL + "api/Lotes";
 
   constructor(private http: HttpClient) { }
 

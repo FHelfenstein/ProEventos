@@ -2,7 +2,6 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl,
          FormArray,
          FormBuilder,
-         FormControl,
          FormGroup,
          Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,6 +18,7 @@ import { Evento } from '@app/models/Evento';
 import { Lote } from '@app/models/Lote';
 
 import { Constants } from '@app/util/constants';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-evento-detalhe',
@@ -33,6 +33,8 @@ export class EventoDetalheComponent implements OnInit {
   form: FormGroup;
   estadoSalvar = 'post';
   loteAtual = {id: 0 , nome:'', indice: 0};
+  imagemURL = 'assets/img/upload.png';
+  file : File;
 
   mudarValorData(value:Date , indice:number, campo:string): void {
     this.lotes.value[indice][campo] = value;
@@ -97,18 +99,24 @@ export class EventoDetalheComponent implements OnInit {
       this.estadoSalvar = 'put';
 
       this.spinner.show();
-      this.eventoService.getEventoById(this.eventoId).subscribe(
-        (evento: Evento) => {
-          //**utilizando spread  ... */
-          this.evento = {...evento};
-          this.form.patchValue(this.evento);
-          this.carregarLotes();
-        },
-        (error:any) => {
-          this.toastr.error("Erro ao tentar carregar o evento.","Erro!");
-          console.error(error);
-        },
-      ).add(() => this.spinner.hide());
+      this.eventoService
+        .getEventoById(this.eventoId)
+        .subscribe(
+          (evento: Evento) => {
+            //**utilizando spread  ... */
+            this.evento = {...evento};
+            this.form.patchValue(this.evento);
+            if(this.evento.imagemURL !=='')
+            {
+              this.imagemURL = `${environment.apiURL}resources/images/${this.evento.imagemURL}`;
+            }
+            this.carregarLotes();
+          },
+          (error:any) => {
+            this.toastr.error("Erro ao tentar carregar o evento.","Erro!");
+            console.error(error);
+          },
+        ).add(() => this.spinner.hide());
     }
   }
 
@@ -135,7 +143,7 @@ export class EventoDetalheComponent implements OnInit {
       qtdPessoas:['',[Validators.required,Validators.max(120000)]],
       telefone:['',Validators.required],
       email:['',[Validators.required,Validators.email]],
-      imagemURL:['',Validators.required],
+      imagemURL:[''],
       lotes: this.fb.array([]),
     });
   }
@@ -169,9 +177,8 @@ export class EventoDetalheComponent implements OnInit {
   }
 
   public salvarEvento() : void {
-    this.spinner.show();
-
     if (this.form.valid) {
+      this.spinner.show();
 
       this.evento = (this.estadoSalvar == 'post')
           ? {...this.form.value}
@@ -238,6 +245,33 @@ export class EventoDetalheComponent implements OnInit {
 
   declineDeleteLote():void {
     this.modalRef.hide();
+  }
+
+  onFileChange(ev: any) : void {
+    const reader = new FileReader();
+
+    reader.onload = (event:any) => this.imagemURL = event.target.result;
+
+    this.file = ev.target.files; // vou atribuir a minha variável file, todos os files que eu vou recebendo no meu HTML no caso o input
+    reader.readAsDataURL(this.file[0]); // estou carregando/lendo os arquivos do meu HTML nesse caso somente uma imagem;
+
+    this.uploadImagem();
+  }
+
+  uploadImagem(): void {
+    this.spinner.show();
+    this.eventoService.postUpload(this.eventoId,this.file).subscribe(
+      () => {
+        this.carregarEvento();
+        this.toastr.success("Imagem atualizada com sucesso","Sucesso!");
+      },
+      (error:any) => {
+        console.error(error);
+        this.toastr.error("Erro ao fazer upload da imagem","Erro!");
+
+      }
+    ).add( () => this.spinner.hide() );
+
   }
 
 }

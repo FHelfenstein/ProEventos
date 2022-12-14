@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Evento } from '@app/models/Evento';
 import { EventoService } from '@app/services/evento.service';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-evento-lista',
@@ -57,6 +58,13 @@ export class EventoListaComponent implements OnInit {
     this.exibirImagem = !this.exibirImagem;
   }
 
+  mostraImagem(imagemURL: string): string {
+    return (imagemURL !== '')
+        ? `${environment.apiURL}resources/images/${imagemURL}`
+        : 'assets/img/semImagem.jpeg';
+
+  }
+
   public carregarEventos(): void {
     const observer = {
       next:(_eventos: Evento[]) => {
@@ -72,16 +80,10 @@ export class EventoListaComponent implements OnInit {
     }
 
     this.eventoService.getEventos().subscribe(observer);
-//      (_eventos: Evento[]) => {
-//        this.eventos = _eventos;
-//        this.eventosFiltrados = this.eventos;
-//      },
-//      error => console.log(error)
-//    );
   }
 
   openModal(event:any,template: TemplateRef<any>,eventoId:number): void {
-    //** esta função faz com que a clicar na linha do botão delete da lista de eventos ele não propague abrindo a tela de evento-detalhe permanecendo na tela*/
+    //** esta função faz com que ao clicar na linha do botão delete da lista de eventos ele não propague abrindo a tela de evento-detalhe permanecendo na tela*/
     event.stopPropagation();
     this.eventoId = eventoId;
     this.modalRef = this.modalService.show(template, {class: 'modal-sm'});
