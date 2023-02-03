@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -11,12 +11,13 @@ import { Evento } from '../models/Evento';
 export class EventoService {
   //baseURL = "https://localhost:5001/api/eventos";
   baseURL = environment.apiURL + "api/eventos";
+  tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJmZXJuYW5kbyIsIm5iZiI6MTY3NTIwNTE5NSwiZXhwIjoxNjc1MjkxNTk1LCJpYXQiOjE2NzUyMDUxOTV9.PiNysS7jNYUu2j1_RVZNU09WK-3FZ7IfZBHksI4pbkuXaOj8srci-W8u8prbIXSFwZzbnJQTHtcw_KWy9I2wUg'});
 
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]> // tipado por Array de Evento
   {
-    return this.http.get<Evento[]>(this.baseURL)
+    return this.http.get<Evento[]>(this.baseURL, { headers: this.tokenHeader})
       .pipe(take(1)); /**definido através do take a quantidade de vezes que poderá executar a função "this.http.get", depois vai desinscrever o observable
                          automaticamente você não consegue fazer mais nada ou seja se manter inscrito */
   }

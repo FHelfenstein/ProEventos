@@ -13,6 +13,11 @@ namespace ProEventos.Application
         private readonly IGeralPersist _geralPersist;
         private readonly ILotePersist _lotePersist;
         private readonly IMapper _mapper;
+
+        public LoteService() {
+
+        }
+
         public LoteService( IGeralPersist geralPersist,
                             ILotePersist lotePersist,
                             IMapper mapper)
