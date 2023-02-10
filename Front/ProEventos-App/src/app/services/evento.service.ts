@@ -11,14 +11,15 @@ import { Evento } from '../models/Evento';
 export class EventoService {
   //baseURL = "https://localhost:5001/api/eventos";
   baseURL = environment.apiURL + "api/eventos";
-  tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJmZXJuYW5kbyIsIm5iZiI6MTY3NTIwNTE5NSwiZXhwIjoxNjc1MjkxNTk1LCJpYXQiOjE2NzUyMDUxOTV9.PiNysS7jNYUu2j1_RVZNU09WK-3FZ7IfZBHksI4pbkuXaOj8srci-W8u8prbIXSFwZzbnJQTHtcw_KWy9I2wUg'});
+  //tokenHeader = new HttpHeaders({ 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('user')).token}` });
+  //tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwidW5pcXVlX25hbWUiOiJmZXJuYW5kbyIsIm5iZiI6MTY3NTcwNjU4NCwiZXhwIjoxNjc1NzkyOTg0LCJpYXQiOjE2NzU3MDY1ODR9.6LN7g3ERWBP6hsogHHLRLo2x0Wo6APtQgD--Ka4V06bpVbnj1Ne__L2X53Z1nBLZ9DNufU2IYGknLlf6RUQ5Ww' });
+  /// o token agora é retornado através da classe JwtInterceptor
 
   constructor(private http: HttpClient) { }
 
   public getEventos(): Observable<Evento[]> // tipado por Array de Evento
   {
-    return this.http.get<Evento[]>(this.baseURL, { headers: this.tokenHeader})
-      .pipe(take(1)); /**definido através do take a quantidade de vezes que poderá executar a função "this.http.get", depois vai desinscrever o observable
+    return this.http.get<Evento[]>(this.baseURL).pipe(take(1)); /**definido através do take a quantidade de vezes que poderá executar a função "this.http.get", depois vai desinscrever o observable
                          automaticamente você não consegue fazer mais nada ou seja se manter inscrito */
   }
 

@@ -8,7 +8,7 @@
 	</div>
 
 	<div class="col-md-6">
-		<form class="p-1" [formGroup]="form">
+		<form class="p-1" [formGroup]="form" (ngSubmit)="register()">
        <!--<p>Form Value: {{form.value | json}}</p>
        <p>Form Status: {{form.status | json}}</p>-->
 
@@ -57,22 +57,22 @@
         <div class="form-group col-sm-6">
           <label for="">Senha:</label>
           <input class="form-control" type="password" placeholder="Digite uma Senha"
-          formControlName="senha" [ngClass]="{'is-invalid': f.senha.errors && f.senha.touched}"/>
-          <div *ngIf="f.senha.errors?.required && f.senha.touched" class="invalid-feedback">
+          formControlName="password" [ngClass]="{'is-invalid': f.password.errors && f.password.touched}"/>
+          <div *ngIf="f.password.errors?.required && f.password.touched" class="invalid-feedback">
             Senha é obrigatório.
           </div>
-          <div *ngIf="f.senha.errors?.minlength && f.senha.touched" class="invalid-feedback">
-            Deve conter no mínimo 06 caracteres.
+          <div *ngIf="f.password.errors?.minlength && f.password.touched" class="invalid-feedback">
+            Deve conter no mínimo 04 caracteres.
           </div>
         </div>
         <div class="form-group col-sm-6">
           <label for="">Confirmar Senha:</label>
           <input class="form-control" type="password" placeholder="Confirme a Senha"
-          formControlName="confirmeSenha" [ngClass]="{'is-invalid': f.confirmeSenha.errors && f.confirmeSenha.touched}"/>
-          <div *ngIf="f.confirmeSenha.errors?.required"  class="invalid-feedback">
+          formControlName="confirmePassword" [ngClass]="{'is-invalid': f.confirmePassword.errors && f.confirmePassword.touched}"/>
+          <div *ngIf="f.confirmePassword.errors?.required"  class="invalid-feedback">
             Confirmação de senha é obrigatório.
           </div>
-          <div *ngIf="f.confirmeSenha.errors?.mustMatch" class="invalid-feedback">
+          <div *ngIf="f.confirmePassword.errors?.mustMatch" class="invalid-feedback">
             Repetir a senha é obrigatório.
           </div>
         </div>
@@ -85,8 +85,8 @@
       </div>
       <div class="form-row">
         <div class="form-group col-12">
-          <button class="btn btn-lg btn-success btn-block px-5" [disabled]="!form.valid">
-            Registar
+          <button [disabled]="!form.valid" class="btn btn-lg btn-success btn-block px-5" type="submit">
+            Registrar
           </button>
         </div>
       </div>
