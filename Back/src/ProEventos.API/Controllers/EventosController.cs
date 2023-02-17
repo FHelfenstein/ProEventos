@@ -11,7 +11,7 @@ using ProEventos.Application;
 using ProEventos.Application.Contratos;
 using ProEventos.Application.Dtos;
 using ProEventos.Domain;
-
+using ProEventos.Persistence.Models;
 
 namespace ProEventos.API.Controllers
 {
@@ -35,12 +35,16 @@ namespace ProEventos.API.Controllers
         }
         
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get([FromQuery] PageParams pageParams)
         {
             try
             {
-                var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(), true);
+                var eventos = await _eventoService.GetAllEventosAsync(User.GetUserId(), pageParams, true);
                 if(eventos == null) return NoContent();
+
+                // adicionar ao meu response o Header com os parâmetros de paginação,será utilizado depois
+                // no Angular , aonde será verificado essa propriedade
+                Response.AddPagination(eventos.CurrentPage, eventos.PageSize, eventos.TotalCount, eventos.TotalPages);
                                 
                 return Ok(eventos);
             }
@@ -71,24 +75,7 @@ namespace ProEventos.API.Controllers
                     $"Erro ao tentar recuperar evento Erro: {ex.Message}");
             }            
         }
-
-        [HttpGet("{tema}/tema")]
-        public async Task<IActionResult> GetByTema(string tema)
-        {
-            try
-            {
-                var eventos = await _eventoService.GetAllEventosByTemaAsync(User.GetUserId(), tema,true);
-                if(eventos == null) return NoContent();
-
-                return Ok(eventos);
-            }
-            catch (Exception ex)
-            {                
-                return this.StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar recuperar eventos Erro: {ex.Message}");
-            }            
-        }
-        
+               
         [HttpPost]
         public async Task<IActionResult> Post(EventoDto model)
         {

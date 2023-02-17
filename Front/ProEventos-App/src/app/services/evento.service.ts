@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Evento } from '../models/Evento';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { environment } from '@environments/environment';
-import { Evento } from '../models/Evento';
+import { PaginatedResult } from '@app/models/Pagination';
 
 @Injectable(
   //{ providedIn: "root"}
@@ -17,16 +18,34 @@ export class EventoService {
 
   constructor(private http: HttpClient) { }
 
-  public getEventos(): Observable<Evento[]> // tipado por Array de Evento
+  public getEventos(page?: number, itemsPerPage?: number, term?: string): Observable<PaginatedResult<Evento[]>> // tipado por Array de Evento
   {
-    return this.http.get<Evento[]>(this.baseURL).pipe(take(1)); /**definido através do take a quantidade de vezes que poderá executar a função "this.http.get", depois vai desinscrever o observable
-                         automaticamente você não consegue fazer mais nada ou seja se manter inscrito */
-  }
+    const paginatedResult: PaginatedResult<Evento[]> = new PaginatedResult<Evento[]>();
 
-  public getEventosByTema(tema: string): Observable<Evento[]> // tipado por Array de Evento
-  {
-    return this.http.get<Evento[]>(`${this.baseURL}/${tema}/tema`)
-      .pipe(take(1));
+    let params = new HttpParams;
+
+    if(page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+
+    if(term != null && term != '') {
+      params = params.append('term',term);
+    }
+
+    return this.http
+    .get<Evento[]>(this.baseURL, {observe: 'response',params })
+    .pipe(
+      take(1),
+      map((response) => {
+        paginatedResult.result = response.body;
+        if(response.headers.has('Pagination')) {
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+        return paginatedResult;
+      }));
+       /**definido através do take a quantidade de vezes que poderá executar a função "this.http.get", depois vai desinscrever o observable
+          automaticamente você não consegue fazer mais nada ou seja se manter inscrito */
   }
 
   public getEventoById(id:number): Observable<Evento> // Tipado por Evento

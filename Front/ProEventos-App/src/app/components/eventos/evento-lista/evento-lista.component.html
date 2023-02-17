@@ -9,7 +9,7 @@
         type="text"
         class="form-control mr-2"
         placeholder="Buscar por Tema e Local"
-        [(ngModel)]="filtroLista"
+        (input)="filtrarEventos($event.target)"
         >
         <!--<button class="btn btn-outline-success">Buscar</button>-->
       </div>
@@ -46,7 +46,7 @@
   <!--[src]="mostraImagem(evento.imagemURL)"-->
   <!--src="/assets/{{evento.imagemURL}}"-->
   <tbody *ngIf="eventos && eventos.length">
-    <tr *ngFor="let evento of eventosFiltrados" (click)="detalheEvento(evento.id)" style="cursor:pointer;">
+    <tr *ngFor="let evento of eventos" (click)="detalheEvento(evento.id)" style="cursor:pointer;">
       <td class="d-none d-md-table-cell">
         <img [collapse]= "!exibirImagem"
         [isAnimated]="true"
@@ -75,10 +75,27 @@
       </td>
     </tr>
   </tfoot>
-  </table>
+</table>
+
+<div class="d-flex justify-content-center">
+  <pagination
+    [boundaryLinks]="true"
+
+    [totalItems]="pagination.totalItems"
+    [itemsPerPage]="pagination.itemsPerPage"
+    [(ngModel)]="pagination.currentPage"
+    (pageChanged)="pageChanged($event)"
+
+    pageBtnClass="btn"
+    previousText="&lsaquo;"
+    nextText="&rsaquo;"
+    firstText="&laquo;"
+    lastText="&raquo;">
+
+  </pagination>
 </div>
 
-
+</div>
 
 <!--{{eventos | json}}-->
 <ng-template #template>
