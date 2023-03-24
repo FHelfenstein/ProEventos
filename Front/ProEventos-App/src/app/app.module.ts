@@ -9,6 +9,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
@@ -21,9 +22,12 @@ import { NgxCurrencyModule } from 'ngx-currency';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { PalestrantesComponent} from './components/palestrantes/palestrantes.component';
 import { TituloComponent } from './shared/titulo/titulo.component';
 import { NavComponent } from './shared/nav/nav.component';
+
+import { PalestrantesComponent} from './components/palestrantes/palestrantes.component';
+import { PalestranteListaComponent } from './components/palestrantes/palestrante-lista/palestrante-lista.component';
+import { PalestranteDetalheComponent } from './components/palestrantes/palestrante-detalhe/palestrante-detalhe.component';
 
 import { EventosComponent } from './components/eventos/eventos.component';
 import { EventoDetalheComponent } from './components/eventos/evento-detalhe/evento-detalhe.component';
@@ -33,6 +37,7 @@ import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { RegistrationComponent } from './components/user/registration/registration.component';
 import { PerfilComponent } from './components/user/perfil/perfil.component';
+import { PerfilDetalheComponent } from './components/user/perfil/perfil-detalhe/perfil-detalhe.component';
 
 import { ContatosComponent } from './components/contatos/contatos.component';
 
@@ -41,11 +46,14 @@ import { HomeComponent } from './components/home/home.component';
 import { EventoService } from './services/evento.service';
 import { LoteService } from './services/lote.service';
 import { AccountService } from './services/account.service';
+import { PalestranteService } from './services/palestrante.service';
 
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 import { DateTimeFormatPipe } from './helpers/DateTimeFormat.pipe';
 import { LocaleDatePipe } from './helpers/locale.pipe';
+
+import { RedesSociaisComponent } from './components/redesSociais/redesSociais.component';
 
 defineLocale('pt-br', ptBrLocale);
 
@@ -56,7 +64,11 @@ defineLocale('pt-br', ptBrLocale);
     DashboardComponent,
     EventosComponent,
     PalestrantesComponent,
+    PalestranteListaComponent,
+    PalestranteDetalheComponent,
     PerfilComponent,
+    PerfilDetalheComponent,
+    RedesSociaisComponent,
     TituloComponent,
     NavComponent,
     DateTimeFormatPipe,
@@ -80,6 +92,7 @@ defineLocale('pt-br', ptBrLocale);
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     PaginationModule.forRoot(),
+    TabsModule.forRoot(),
     BsDatepickerModule.forRoot(),
     ToastrModule.forRoot({
         timeOut: 3000,
@@ -94,6 +107,7 @@ defineLocale('pt-br', ptBrLocale);
     AccountService,
     EventoService,
     LoteService,
+    PalestranteService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
   ],
   bootstrap: [AppComponent],
