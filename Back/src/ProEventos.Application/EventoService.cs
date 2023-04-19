@@ -142,6 +142,21 @@ namespace ProEventos.Application
              
                 throw new Exception(ex.Message);
             }
-        }        
+        }  
+
+        public async Task<int> GetAllEventosByPalestranteAsync(int userId) 
+        {
+            try
+            {
+                var totalEventos = await _eventoPersist.GetAllEventosByPalestranteAsync(userId);
+                return totalEventos;
+                
+            }
+            catch (System.Exception ex)
+            {
+                
+                throw new Exception(ex.Message);
+            }
+        }     
     }
 }

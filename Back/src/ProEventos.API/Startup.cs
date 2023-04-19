@@ -89,6 +89,7 @@ namespace ProEventos.API
             services.AddScoped<IPalestranteService, PalestranteService>();
             services.AddScoped<IRedeSocialService, RedeSocialService>();
             services.AddScoped<IUtil,Util>();
+            services.AddScoped<IContatoService, ContatoService>();
             
             services.AddScoped<IEventoPersist, EventoPersist>();
             services.AddScoped<ILotePersist, LotePersist>();
@@ -96,6 +97,7 @@ namespace ProEventos.API
             services.AddScoped<IGeralPersist, GeralPersist>();
             services.AddScoped<IPalestrantePersist, PalestrantePersist>();
             services.AddScoped<IRedeSocialPersist, RedeSocialPersist>();
+            services.AddScoped<IContatoPersist, ContatoPersist>();
 
             services.AddSwaggerGen(options =>
             {

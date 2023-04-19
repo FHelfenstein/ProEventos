@@ -13,5 +13,6 @@ namespace ProEventos.Application
 
         Task<PageList<EventoDto>> GetAllEventosAsync(int userId, PageParams pageParams, bool includePalestrantes = false);
         Task<EventoDto> GetEventoByIdAsync(int userId, int eventoId, bool  includePalestrantes = false);
+        Task<int> GetAllEventosByPalestranteAsync(int userId);
     }
 }

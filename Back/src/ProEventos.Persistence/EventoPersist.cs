@@ -60,6 +60,19 @@ namespace ProEventos.Persistence
 
             return (await query.FirstOrDefaultAsync());
         }
+
+        public async Task<int> GetAllEventosByPalestranteAsync(int userId)
+        {
+            IQueryable<Evento> query = _context.Eventos
+                .Include(e => e.User);
+
+            query = query.AsNoTracking()
+                           .OrderBy(e => e.UserId)
+                           .Where(e => e.UserId == userId);
+                           
+            return (await query.CountAsync());
+
+        }
      
     }
 }

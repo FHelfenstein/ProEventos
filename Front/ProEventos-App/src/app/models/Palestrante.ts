@@ -6,6 +6,7 @@ export interface Palestrante {
   id:number;
   miniCurriculo:string;
   user: UserUpdate;
+  totalEventos: number;
   redesSociais: RedeSocial[];
   palestrantesEventos: Evento[];
 }

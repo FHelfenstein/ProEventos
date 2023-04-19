@@ -110,7 +110,6 @@ namespace ProEventos.Application
             {             
                 throw new Exception(ex.Message);
             }
-        }      
-       
+        }       
     }
 }

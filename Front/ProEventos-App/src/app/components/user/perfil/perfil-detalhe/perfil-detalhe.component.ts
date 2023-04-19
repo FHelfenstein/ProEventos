@@ -52,9 +52,7 @@ export class PerfilDetalheComponent implements OnInit {
         console.error(error);
         this.toaster.error("Usuário não Carregado.","Erro!");
         this.router.navigate(['/dashboard']);
-
       }
-
     ).add(() => this.spinner.hide());
   }
 
@@ -64,6 +62,7 @@ export class PerfilDetalheComponent implements OnInit {
     };
 
     this.form = this.fb.group({
+      id:[0],
       userName:[''],
       imagemURL:[''],
       titulo:['NaoInformado',[Validators.required]],
@@ -75,7 +74,6 @@ export class PerfilDetalheComponent implements OnInit {
       descricao:['',[Validators.required]],
       password:['',[Validators.required,Validators.minLength(4)]],
       confirmePassword:['',[Validators.required]],
-
     },formOptions);
   }
 
@@ -105,7 +103,7 @@ export class PerfilDetalheComponent implements OnInit {
         )
      }
 
-     //console.log("#accountService ",JSON.stringify(this.userUpdate));
+      //console.log("#accountService ",JSON.stringify(this.userUpdate));
       this.accountService
        .updateUser(this.userUpdate)
        .subscribe(

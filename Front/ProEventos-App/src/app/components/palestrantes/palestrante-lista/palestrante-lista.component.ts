@@ -9,6 +9,8 @@ import { debounceTime } from 'rxjs/operators';
 import { Palestrante } from '@app/models/Palestrante';
 import { PaginatedResult, Pagination } from '@app/models/Pagination';
 import { environment } from '@environments/environment';
+import { EventoService } from '@app/services/evento.service';
+import { Evento } from '@app/models/Evento';
 
 @Component({
   selector: 'app-palestrante-lista',
@@ -18,11 +20,13 @@ import { environment } from '@environments/environment';
 export class PalestranteListaComponent implements OnInit {
   public Palestrantes: Palestrante[] = [];
   public pagination = {} as Pagination;
+  public eventosCriados = 0;
 
   constructor(private palestranteService: PalestranteService,
     private modalService: BsModalService,
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
+    private eventoService: EventoService,
     private router: Router) { }
 
   public ngOnInit() {
@@ -33,6 +37,23 @@ export class PalestranteListaComponent implements OnInit {
     } as Pagination;
 
     this.carregarPalestrantes();
+    this.getEventosCriados();
+  }
+  public getEventosCriados(): void {
+    this.spinner.show();
+
+    this.eventoService
+      .getEventos(
+        this.pagination.currentPage,
+        this.pagination.itemsPerPage)
+      .subscribe(
+          (paginatedResult: PaginatedResult<Evento[]>) => {
+            this.eventosCriados = paginatedResult.pagination.totalItems;
+          },
+          () => {
+            this.toastr.error('Erro ao Carregar Meus Eventos Criados.','Erro!');
+          }
+      ).add( () => this.spinner.hide() );
   }
 
   termoBuscaChanged:Subject<string> = new Subject<string>();
@@ -90,7 +111,5 @@ export class PalestranteListaComponent implements OnInit {
       return environment.apiURL + `resources/perfil/${imagemName}`;
     else
       return './assets/img/perfil.png';
-
   }
-
 }

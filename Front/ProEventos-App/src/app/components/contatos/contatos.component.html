@@ -1,1 +1,3 @@
-<app-titulo [titulo]="'Contatos'" [iconClass]="'fas fa-envelope-open-text'"></app-titulo>
+<app-titulo [titulo]="'Contatos'" [iconClass]="'fas fa-envelope-open-text'" [botaoListar]="true"></app-titulo>
+<router-outlet></router-outlet>
+<!--Para chamar as subrotas de contatos precisa utilizar neste caso o <router-outlet> caso contrário não vai funcionar-->

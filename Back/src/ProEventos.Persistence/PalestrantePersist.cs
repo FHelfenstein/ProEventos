@@ -56,6 +56,6 @@ namespace ProEventos.Persistence
                          .Where(p => p.UserId == userId);    
 
             return (await query.FirstOrDefaultAsync());
-        }     
+        }                  
     }
 }

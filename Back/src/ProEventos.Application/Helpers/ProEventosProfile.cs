@@ -15,6 +15,7 @@ namespace ProEventos.API.Helpers
             CreateMap<Palestrante, PalestranteAddDto>().ReverseMap();
             CreateMap<Palestrante, PalestranteUpdateDto>().ReverseMap();
             CreateMap<RedeSocial,  RedeSocialDto>().ReverseMap();    
+            CreateMap<Contato,  ContatoDto>().ReverseMap();
 
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, UserLoginDto>().ReverseMap();

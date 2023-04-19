@@ -15,6 +15,9 @@ import { RegistrationComponent } from './components/user/registration/registrati
 import { PerfilComponent } from './components/user/perfil/perfil.component';
 
 import { ContatosComponent } from './components/contatos/contatos.component';
+import { ContatoListaComponent } from './components/contatos/contato-lista/contato-lista.component';
+import { ContatoDetalheComponent } from './components/contatos/contato-detalhe/contato-detalhe.component';
+
 import { AuthGuard } from './guard/auth.guard';
 import { HomeComponent } from './components/home/home.component';
 
@@ -41,8 +44,19 @@ const routes: Routes = [
        ],
       },
       {path:'dashboard', component: DashboardComponent},
-      {path:'palestrantes', component: PalestrantesComponent},
-      {path:'contatos', component: ContatosComponent},
+      {
+        path:'palestrantes', component: PalestrantesComponent
+      },
+      {path:'contatos', redirectTo: 'contatos/lista'},
+      {
+        path:'contatos',
+        component: ContatosComponent,
+        children:[
+          {path: 'detalhe/:id', component: ContatoDetalheComponent},
+          {path: 'detalhe', component: ContatoDetalheComponent},
+          {path:'lista', component: ContatoListaComponent},
+        ]
+      },
      ],
   },
   {

@@ -69,6 +69,11 @@ export class EventoService {
       .pipe(take(1));
   }
 
+  public getEventosByPalestrante(userId:number): Observable<any> {
+      return this.http.get(`${this.baseURL}/count/${userId}`)
+        .pipe(take(1));
+  }
+
   postUpload(eventoId: number, file: File) : Observable<Evento> {
     const fileToUpload = file[0] as File;
     const formData = new FormData();

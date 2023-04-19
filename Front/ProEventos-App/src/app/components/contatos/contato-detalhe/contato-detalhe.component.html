@@ -1,0 +1,56 @@
+<div class="card rounded shadow-sm">
+  <form [formGroup]="form">
+    <div class="p-3">
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <label>Nome</label>
+          <input type="text" class="form-control" formControlName="nome" placeholder="Insira o Nome" [ngClass]="cssValidator(f.nome)">
+          <div *ngIf="f.nome.errors && f.nome.touched" class="invalid-feedback">
+            <div *ngIf="f.nome.errors?.required">Nome é Obrigatório.</div>
+            <div *ngIf="f.nome.errors?.minlength">Nome Deve ter no Mínimo 04 caracteres.</div>
+            <div *ngIf="f.nome.errors?.maxlength">Nome Deve ter no Máximo 40 caracteres.</div>
+          </div>
+        </div>
+        <div class="form-group col-md-4">
+          <label>Cargo</label>
+          <input type="text" class="form-control" formControlName="cargo" placeholder="Insira o Cargo" [ngClass]="cssValidator(f.cargo)">
+          <div *ngIf="f.cargo.errors && f.cargo.touched" class="invalid-feedback">
+            <div *ngIf="f.cargo.errors?.required" >Cargo é Obrigatório</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-4">
+          <label>Telefone</label>
+          <input type="text" class="form-control" formControlName="telefone" placeholder="(000) 90000-0000" [ngClass]="cssValidator(f.telefone)">
+          <div *ngIf="f.telefone.errors && f.telefone.touched" class="invalid-feedback">
+            <div *ngIf="f.telefone.errors?.required">Telefone é Obrigatório.</div>
+          </div>
+        </div>
+        <div class="form-group col-md-8">
+          <label>e-Mail</label>
+          <input type="text" class="form-control" formControlName="email" placeholder="e-mail" [ngClass]="cssValidator(f.email)">
+          <div *ngIf="f.email.errors && f.email.touched" class="invalid-feedback">
+            <div *ngIf="f.email.errors?.required" >e-Mail é Obrigatório</div>
+            <div *ngIf="f.email.errors?.email">e-Mail informado está inválido.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex">
+        <button class="btn btn-outline-secondary mr-auto border" (click)="resetForm()">
+          Cancelar Alteração
+        </button>
+        <button class="btn btn-success" [disabled]="!form.valid" (click)="salvarContato()">
+          Salvar Contato
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<br>
+<!--Quando desejar visualizar se o formulário está válido ou não descomentar as linhas abaixo-->
+<!--<p>Form Value: {{form.value | json}} </p>
+<p>Form Valid: {{form.status | json}}</p>-->

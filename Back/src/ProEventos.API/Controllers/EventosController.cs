@@ -78,6 +78,25 @@ namespace ProEventos.API.Controllers
                     $"Erro ao tentar recuperar evento Erro: {ex.Message}");
             }            
         }
+
+        [HttpGet("count/{userId}")]
+        public async Task<IActionResult> CountEventosPalestrante(int userId)
+        {
+            try
+            {
+                var totalEventos = await _eventoService.GetAllEventosByPalestranteAsync(userId);
+                return Ok( 
+                    new {message = "Eventos Calculados.",
+                        totalEventos = totalEventos.ToString()
+                    }
+                );
+            }
+            catch (System.Exception ex)
+            {              
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                $"Erro ao tentar calcular os eventos do palestrante Erro: {ex.Message}");                
+            }
+        }
                
         [HttpPost]
         public async Task<IActionResult> Post(EventoDto model)

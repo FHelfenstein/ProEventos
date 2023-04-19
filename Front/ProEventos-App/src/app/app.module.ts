@@ -40,6 +40,8 @@ import { PerfilComponent } from './components/user/perfil/perfil.component';
 import { PerfilDetalheComponent } from './components/user/perfil/perfil-detalhe/perfil-detalhe.component';
 
 import { ContatosComponent } from './components/contatos/contatos.component';
+import { ContatoListaComponent } from './components/contatos/contato-lista/contato-lista.component';
+import { ContatoDetalheComponent } from './components/contatos/contato-detalhe/contato-detalhe.component';
 
 import { HomeComponent } from './components/home/home.component';
 
@@ -61,6 +63,8 @@ defineLocale('pt-br', ptBrLocale);
   declarations: [
     AppComponent,
     ContatosComponent,
+    ContatoListaComponent,
+    ContatoDetalheComponent,
     DashboardComponent,
     EventosComponent,
     PalestrantesComponent,
